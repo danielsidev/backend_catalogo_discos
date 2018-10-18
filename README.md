@@ -13,7 +13,7 @@ Isso irá criar o banco, o usuário da aplicação, as tabelas e irá populá-la
 sudo npm install
 
 # Irá rodar em localhost:30838
-npm run dev
+sudo npm run dev
 
 # Acesso a aplicação
 Aplicação possui 2 usuários cadastrados:
