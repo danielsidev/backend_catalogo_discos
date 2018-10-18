@@ -6,13 +6,13 @@ class DisksDao extends MySQLClient{
     this.table = "disks";
   }
   getDiskPage(page,callback){
-    this.db.query("Select * from "+this.table+"order by id_disks desc limit "+page+", 10",callback);
+    this.db.query("Select * from "+this.table+"order by id_disks desc limit ?",[page+', 10'],callback);
   }
   getDiskById(id, callback){
     this.db.query("select * from "+this.table+" where id_disks=? ",[id],callback);
   }
   getDiskByIdCollection(id_collection, page, callback){
-    this.db.query("select * from "+this.table+" where id_collection=?  limit "+page+",10",[id_collection],callback);
+    this.db.query("select * from "+this.table+" where id_collection=?  limit ",[id_collection, page+', 10'],callback);
   }
 
   getDiskCollectionAllById( id_disk, callback){
@@ -26,7 +26,7 @@ class DisksDao extends MySQLClient{
     this.db.query("select d.id_disks as 'id_disks',c.id_collection as 'id_collection', c.name_collection as 'collection', d.title as 'disk', d.year_publication as 'year' from "+ this.table+" as d inner join collection as c  on d.id_collection=c.id_collection where d.id_collection=?  order by id_disks desc",[id_collection],callback);
   }
   getDiskByKeywordAll(keyword, callback){
-    this.db.query("select d.id_disks as 'id_disks',c.name_collection as 'collection', d.title as 'disk', d.year_publication as 'year' from "+this.table+" as d inner join collection as c  on d.id_collection=c.id_collection where d.title LIKE '"+keyword+"%' ",callback);
+    this.db.query("select d.id_disks as 'id_disks',c.name_collection as 'collection', d.title as 'disk', d.year_publication as 'year' from "+this.table+" as d inner join collection as c  on d.id_collection=c.id_collection where d.title LIKE ? ",[keyword+'%'],callback);
   }
   getDiskByOrderId(callback){
     this.db.query("select * from "+this.table+" order by id_disks desc ",callback);

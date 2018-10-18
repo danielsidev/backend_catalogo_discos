@@ -1,6 +1,4 @@
 'use strict';
-
-var Sequelize = require('sequelize');
 var mysql=require('mysql');
 class MySQLClient
 {

@@ -4,7 +4,7 @@ CREATE DATABASE catalogo_discos;
 CREATE USER 'admDisk'@'localhost' IDENTIFIED BY 'admDisk'; 
 GRANT ALL PRIVILEGES ON catalogo_discos.* TO 'admDisk'@'localhost';
 FLUSH PRIVILEGES;
-use catalogo_discos_teste;
+use catalogo_discos;
 -- End - Database and User Database with Password and Privileges 
 
 -- Start - Users from application 
