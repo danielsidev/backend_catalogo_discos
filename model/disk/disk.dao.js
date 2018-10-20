@@ -6,7 +6,8 @@ class DisksDao extends MySQLClient{
     this.table = "disks";
   }
   getDiskPage(page,callback){
-    this.db.query("Select * from "+this.table+"order by id_disks desc limit ?",[page+', 10'],callback);
+    let pg = page+", 10";
+    this.db.query("Select * from "+this.table+" order by id_disks desc limit ?",[pg],callback);
   }
   getDiskById(id, callback){
     this.db.query("select * from "+this.table+" where id_disks=? ",[id],callback);

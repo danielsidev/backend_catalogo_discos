@@ -16,8 +16,13 @@ app.engine('html', require('ejs').renderFile);
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 /******* InÃ­cio - Rotas *******/
+app.use(function(err, req, res, next) {
+  console.error(err);
+  res.status(500).send('internal server error');
+})
 app.use('/api/v1',Routes);
 app.get('/',(req,res) => res.render('index.html'));
+
 /******* Fim - Rotas *******/
 app.listen(30838,function(){
 	console.log("Aplicação iniciada na porta: http://localhost:30838");
