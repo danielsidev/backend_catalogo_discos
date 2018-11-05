@@ -60,21 +60,15 @@ class DiskController extends DiskDao{
          });
     }
 
-    getDisksByKeyword(keyword, res){        
-          this.getDiskByKeywordAll(keyword,(err,rows) =>{
-            this.closeConnection();
-            console.log("result: "+JSON.stringify(rows));
-            if(err){
-              res.status(400).json({"response":400, "error":err, "body":null});
-            }else{
-                if(rows.length >0){
-                    res.status(200).json({"response":200, "error":null, "body":rows});
-                }else{
-                    res.status(200).json({"response":200, "message":"We Not Found Disks with this keyword","error":null, "body":rows});
-                }
-              
-            }
-         });
+    getDisksByKeyword(keyword, res){ 
+        return new Promise((resolve, reject) => {
+            this.getDiskByKeywordAll(keyword,(err,rows) =>{
+                this.closeConnection();
+                console.log("result: "+JSON.stringify(rows));                
+                (err)?reject(err):resolve(rows);
+             });
+        });       
+         
     }
     addNewDisk(Disk,res){
         this.addDisk(Disk, (err) => {
@@ -105,71 +99,6 @@ class DiskController extends DiskDao{
               }
         });
     }
-    // getUserById(token,id, res){
-    //     Token.checkToken(token,function(resposta, msg){
-    //       if(resposta){
-    //         User.getUserById(id,function(err,rows){
-    //           if(err){
-    //             res.json({"success":false,"erro":err, "message":"Não foi possível encontrar o usuário!", "dados":null});
-    //           }else{
-    //             res.json({"success":true, "erro":null, "dados":rows});
-    //           }
-    //         });
-    //       }else{
-    //         res.json({"success":false, "erro":null, "message":msg});
-    //       }
-    //     });
-    // }
-    // updateUser(token, user, res){
-    //   Token.checkToken(token,function(resposta, msg){
-    //     if(resposta){
-    //       User.updateUser(user,function(err,rows){
-    //         if(err){
-    //           res.json({"success":false,"erro":err, "message":"Não foi possível atualizar o usuário!", "dados":null});
-    //         }else{
-    //           res.json({"success":true, "erro":null,"message":"Usuário atualizado com sucesso!", "dados":null});
-    //         }
-    //       });
-    //     }else{
-    //       res.json({"success":false, "erro":null, "message":msg});
-    //     }
-    //   });
-    // }
-    // updatePassword(token, user, res){
-    //   Token.checkToken(token,function(resposta, msg){
-    //     if(resposta){
-    //       User.newPassword(user,function(err,rows){
-    //         if(err){
-    //           res.json({"success":false,"erro":err, "message":"Não foi possível atualizar a senha!", "dados":null});
-    //         }else{
-    //           res.json({"success":true, "erro":null,"message":"Senha atualizada com sucesso!", "dados":null});
-    //         }
-    //       });
-    //     }else{
-    //       res.json({"success":false, "erro":null, "message":msg});
-    //     }
-    //   });
-    // }
-    // deleteUser(token,id, res){
-    //   Token.checkToken(token,function(resposta, msg){
-    //     if(resposta){
-    //       let iduser = parseInt(id);
-    //       User.deleteUser(iduser, function(err,count){
-    //         if(err){
-    //           res.json({"success":false,"erro":err, "message":"Não foi possível excluir o usuário!", "dados":null});
-    //         }else{
-    //           res.json({"success":true, "erro":null,"message":"Usuário excluído com sucesso!", "dados":null});
-    //         }
-    //       });
-    //     }else{
-    //       res.json({"success":false, "erro":null, "message":msg});
-    //     }
-    //   });
-    // }
-    // logout(dados, res){
-    //   Token.addTokenBlackList(dados,function(err,resposta){
-    //      (err)?res.json({"success":false,"message":"Erro: "+err,"token":dados.token}):res.json({"success":true,"message":"Logout efetuado com sucesso!","token":dados.token});
-    //   });
-    // }
+    
  }
  module.exports=DiskController;

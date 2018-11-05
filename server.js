@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 app.use(function(err, req, res, next) {
   console.error(err);
   res.status(500).send('internal server error');
-})
+});
 app.use('/api/v1',Routes);
 app.get('/',(req,res) => res.render('index.html'));
 

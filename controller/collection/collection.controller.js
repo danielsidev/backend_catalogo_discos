@@ -6,13 +6,7 @@ class CollectionController extends CollectionDao{
         super();
         this.Token = new TokenController(); 
     }
-    // checkToken(token, res){
-    //   Token.checkToken(token,function(resposta, msg){
-    //       let retorno = {"success":resposta, "erro":null, "message":msg};
-    //       console.log(JSON.stringify(retorno));
-    //       res.json(retorno);
-    //   });
-    // }
+  
 
 
     getAllCollectionsPage(page,res){

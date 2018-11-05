@@ -55,15 +55,25 @@ router.get('/search/keyword/:keyword',function(req,res,next){
     console.log("token: "+token);
     let keyword = req.params.keyword;
     let Disk = new DiskController();
-    Disk.Token.checkToken(token,function(resposta, msg){
-       let retorno = {"success":resposta, "erro":null, "message":msg};
-       console.log(JSON.stringify(retorno));
-       if(resposta){
-        Disk.getDisksByKeyword(keyword, res);
-       }else{
-            res.status(401).json({response:401,message:"Token invalid or expired!" });
-       }
-   });
+    Disk.Token.checkTokenPromise(token)
+    .then((respo) => {
+        console.log(respo);
+        Disk.getDisksByKeyword(keyword, res)
+            .then((response) =>{
+                if(response.length >0){
+                    res.status(200).json({"response":200, "error":null, "body":response});
+                }else{
+                    res.status(200).json({"response":200, "message":"We Not Found Disks with this keyword","error":null, "body":response});
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+                res.status(400).json({"response":400, "error":"Não foi possível consultar no momento. Tente mais tarde.", "body":null});
+            });
+    })
+    .catch((error) => {
+        res.status(401).json({response:401,message:"Token invalid or expired!" });
+    });
 });
 
 

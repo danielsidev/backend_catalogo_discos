@@ -26,6 +26,32 @@ class TokenController extends TokenDao{
        }
      });
   }
+
+  checkTokenPromise(tk){
+    return new Promise( (resolve, reject) => {
+      let token = tk;
+      this.checkTokenExistOne(token,(err,retorno) => {
+          if(!err){ //Se token(retorno) informando já existe na blacklist: precisa fazer login
+            if(retorno.length>0){
+              //callback(false, "Token Inválido!");
+              reject("Token inválido!");
+            }else{
+                jwt.verify(token, secret,(err, decoded) => {
+                    if(err) { //failed verification.
+                      console.error("ERRO: "+JSON.stringify(err));
+                      //callback(false, "Token Expirou!");
+                      reject("Token Expirou!");
+                    }else{
+                      let msg = "Token Válido: "+JSON.stringify(decoded);
+                      resolve(msg);
+                      //callback(true, msg);
+                    }
+                  });
+            }
+          }else{ callback(false, "Token Inexistente!"); }
+      });
+    });
+}
   checkToken(tk, callback){
       let token = tk;
       this.checkTokenExistOne(token,function(err,retorno){
